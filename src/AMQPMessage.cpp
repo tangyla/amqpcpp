@@ -96,37 +96,40 @@ string AMQPMessage::getRoutingKey() {
     return routing_key;
 }
 
-void AMQPMessage::addHeader(string name, amqp_bytes_t * value) {
+void AMQPMessage::addHeader(const char * name, amqp_boolean_t * value) {
+    headers[name] = string(*value? "false":"true");
+}
+
+void AMQPMessage::addHeader(const char * name, uint64_t * value) {
+    char ivalue[32] = {0};
+    sprintf(ivalue, "%lu", *value);
+    headers[name] = string(ivalue);
+}
+
+void AMQPMessage::addHeader(const char * name, uint8_t * value) {
+    char ivalue[4] = {0};
+    sprintf(ivalue,"%d",*value);
+    headers[name] = string(ivalue);
+}
+
+void AMQPMessage::addHeader(const char * name, double * value) {
+    char dvalue[16] = {0};
+    sprintf(dvalue,"%.02f", *value);
+    headers[name] = string(dvalue);
+}
+
+void AMQPMessage::addHeader(const char* name, amqp_bytes_t * value) {
     string svalue;
     svalue.assign(( const char *) value->bytes, value->len);
     headers[name] = svalue;
-    //headers.insert( pair<string,string>(name,svalue));
-}
-
-void AMQPMessage::addHeader(string name, uint64_t * value) {
-    char ivalue[32];
-    bzero(ivalue,32);
-    sprintf(ivalue, "%lu", *value);
-    headers[name] = string(ivalue);
-    //headers.insert(pair<string,string>(name,string(ivalue)));
-}
-
-void AMQPMessage::addHeader(string name, uint8_t * value) {
-    char ivalue[4];
-    bzero(ivalue,4);
-    sprintf(ivalue,"%d",*value);
-    headers[name] = string(ivalue);
-    //headers.insert( pair<string,string>(name,string(ivalue)));
 }
 
 void AMQPMessage::addHeader(amqp_bytes_t * name, amqp_bytes_t * value) {
-    //cout << "name " << name << endl;
     string sname;
     sname.assign((const char *) name->bytes, name->len);
     string svalue;
     svalue.assign((const char *) value->bytes, value->len);
     headers[sname] = string(svalue);
-    //headers.insert(pair<string, string>(sname, svalue));
 }
 
 string AMQPMessage::getHeader(string name) {

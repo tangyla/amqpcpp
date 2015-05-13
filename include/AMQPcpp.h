@@ -90,9 +90,11 @@ class AMQPMessage {
         void setMessage(const char * data,uint32_t length);
         char * getMessage(uint32_t* length);
 
-        void addHeader(string name, amqp_bytes_t * value);
-        void addHeader(string name, uint64_t * value);
-        void addHeader(string name, uint8_t * value);
+        void addHeader(const char * name, uint64_t * value);
+        void addHeader(const char * name, uint8_t * value);
+        void addHeader(const char * name, amqp_boolean_t * value);
+        void addHeader(const char * name, double * value);
+        void addHeader(const char * name, amqp_bytes_t * value);
         void addHeader(amqp_bytes_t * name, amqp_bytes_t * value);
         string getHeader(string name);
 
