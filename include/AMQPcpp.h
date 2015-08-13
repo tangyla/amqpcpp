@@ -72,51 +72,50 @@ class AMQPException {
 
 
 class AMQPMessage {
+public :
+    AMQPMessage(AMQPQueue * queue);
+    ~AMQPMessage();
 
-    char * data;
-    uint32_t len;
-    string exchange;
-    string routing_key;
-    uint32_t delivery_tag;
-    int message_count;
-    string consumer_tag;
-    AMQPQueue * queue;
-    map<string,string> headers;
+    void setMessage(const char * data,uint32_t length);
+    char * getMessage(uint32_t* length);
 
-    public :
-        AMQPMessage(AMQPQueue * queue);
-        ~AMQPMessage();
+    void addHeader(const char * name, uint64_t * value);
+    void addHeader(const char * name, uint8_t * value);
+    void addHeader(const char * name, amqp_boolean_t * value);
+    void addHeader(const char * name, double * value);
+    void addHeader(const char * name, amqp_bytes_t * value);
+    void addHeader(amqp_bytes_t * name, amqp_bytes_t * value);
+    string getHeader(string name);
 
-        void setMessage(const char * data,uint32_t length);
-        char * getMessage(uint32_t* length);
+    void setConsumerTag( amqp_bytes_t consumer_tag);
+    void setConsumerTag( string consumer_tag);
+    string getConsumerTag();
 
-        void addHeader(const char * name, uint64_t * value);
-        void addHeader(const char * name, uint8_t * value);
-        void addHeader(const char * name, amqp_boolean_t * value);
-        void addHeader(const char * name, double * value);
-        void addHeader(const char * name, amqp_bytes_t * value);
-        void addHeader(amqp_bytes_t * name, amqp_bytes_t * value);
-        string getHeader(string name);
+    void setMessageCount(int count);
+    int getMessageCount();
 
-        void setConsumerTag( amqp_bytes_t consumer_tag);
-        void setConsumerTag( string consumer_tag);
-        string getConsumerTag();
+    void setExchange(amqp_bytes_t exchange);
+    void setExchange(string exchange);
+    string getExchange();
 
-        void setMessageCount(int count);
-        int getMessageCount();
+    void setRoutingKey(amqp_bytes_t routing_key);
+    void setRoutingKey(string routing_key);
+    string getRoutingKey();
 
-        void setExchange(amqp_bytes_t exchange);
-        void setExchange(string exchange);
-        string getExchange();
+    uint32_t getDeliveryTag();
+    void setDeliveryTag(uint32_t delivery_tag);
 
-        void setRoutingKey(amqp_bytes_t routing_key);
-        void setRoutingKey(string routing_key);
-        string getRoutingKey();
-
-        uint32_t getDeliveryTag();
-        void setDeliveryTag(uint32_t delivery_tag);
-
-        AMQPQueue * getQueue();
+    AMQPQueue * getQueue();
+private:
+    char * data_;
+    uint32_t len_;
+    string exchange_;
+    string routing_key_;
+    uint32_t delivery_tag_;
+    int message_count_;
+    string consumer_tag_;
+    AMQPQueue * queue_;
+    map<string,string> headers_;
 };
 
 
