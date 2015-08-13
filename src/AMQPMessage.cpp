@@ -24,7 +24,7 @@ AMQPMessage::~AMQPMessage() {
 }
 
 void AMQPMessage::setMessage(const char * data, uint32_t length) {
-    if (data) {
+    if (data && length) {
         if (data_) {
             free(data_);
             data_ = NULL;
