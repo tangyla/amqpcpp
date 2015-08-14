@@ -3,7 +3,7 @@ CFLAGS   = -Wall
 CPPFLAGS = $(CFLAGS) -I/usr/local/include -L/usr/local/lib -Iinclude/
 
 LIBRARIES= rabbitmq
-LIBS     = $(addprefix -l,$(LIBRARIES))
+LIBS     = $(addprefix -l,$(LIBRARIES)) -lrt
 
 LIBNAME  = amqpcpp
 LIBFILE  = lib$(LIBNAME).a

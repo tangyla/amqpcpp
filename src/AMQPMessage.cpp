@@ -24,12 +24,12 @@ AMQPMessage::~AMQPMessage() {
 }
 
 void AMQPMessage::setMessage(const char * data, uint32_t length) {
-    if (data && length) {
-        if (data_) {
-            free(data_);
-            data_ = NULL;
-        }
+    if (data_) {
+        free(data_);
+        data_ = NULL;
+    }
 
+    if (data && length) {
         data_ = (char*)malloc(length);
         memcpy(data_, data, length);
         len_ = length;
